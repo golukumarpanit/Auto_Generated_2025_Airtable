@@ -104,28 +104,22 @@ function displayCertificate(fields) {
 let qr;
 
 window.onload = function () {
+    // Step 1: QR को initialize करो
     qr = new QRCode(document.getElementById("qrcode"), {
-        text: "Loading QR...", // yaha se text dikh rha hai        
-           
-        width: 200, //qr ka height and witdh set huua
+        text: "Loading QR...",
+        width: 200,
         height: 200
     });
-};
-// Ye Fuction qr me data lane me help krega
-function AkashpandeyLearn(fields) {    
-    // Step 2: अब QR code में नया data डालो
-    const qrData = `Certificate Nub: ${fields.Ms_Nub || "N/A"}
-    Roll No: ${fields.ROLL_NUB || "N/A"}
-    Name: ${fields.NAME || "N/A"}
-    Father's Name: ${fields.FATHERS_NAME || "N/A"}
-    Course: ${fields.SELECT_COURSE || "N/A"}    
-    Session: 18-02-2025`;
-    
 
-    qr.clear();        // पहले वाला QR code साफ कर दो
-    qr.makeCode(qrData); // नया QR code बना दो
-    
-}
+    // Step 2: Page load hone ke baad roll number check karo
+    if (typeof rollNumber !== "undefined" && rollNumber) {
+        AkashpandeyLearne(rollNumber);
+    } else {
+        document.getElementById("errorMsg").innerText = "⚠️ No roll number provided!";
+    }
+};
+
+// Step 3: Airtable se data fetch karke QR update karo
 async function AkashpandeyLearne(roll) {
     try {
         const formula = `FIND("${roll}", {ROLL_NUB})`;
@@ -138,23 +132,36 @@ async function AkashpandeyLearne(roll) {
         const data = await res.json();
 
         if (data.records && data.records.length > 0) {
-            AkashpandeyLearn(data.records[0].fields); 
+            // Data mil gaya — ab QR update karte hain
+            AkashpandeyLearn(data.records[0].fields);
         } else {
             document.getElementById("errorMsg").innerText = "❌ No record found!";
         }
-        
-        
     } catch (err) {
         document.getElementById("errorMsg").innerText = "⚠️ Error loading record.";
         console.error(err);
     }
 }
-//yaha se jo equation liye hai o yaha fetch ho rha hai
-if (rollNumber) {
-    AkashpandeyLearne(rollNumber);
-} else {
-    document.getElementById("errorMsg").innerText = "⚠️ No roll number provided!";
+
+// Step 4: QR update karne ka function
+function AkashpandeyLearn(fields) {
+    const qrData = `Certificate Nub: ${fields.Ms_Nub || "N/A"}
+Roll No: ${fields.ROLL_NUB || "N/A"}
+Name: ${fields.NAME || "N/A"}
+Father's Name: ${fields.FATHERS_NAME || "N/A"}
+DOB: ${fields.DOB || "N/A"}
+Course: ${fields.SELECT_COURSE || "N/A"}
+Session: 18-02-2025`;
+
+    // QR object available hai to update karo
+    if (qr) {
+        qr.clear();
+        qr.makeCode(qrData);
+    } else {
+        console.error("QR object not initialized yet!");
+    }
 }
+
 
 // -------------------------------
 // Function: Airtable से आने वाले fields से Image लगाना
