@@ -15,50 +15,44 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700;900&display=swap">
     <link rel="stylesheet" href="https://www.gcsm.net.in/assets/tmp-assets/css/certificate.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css"> 
-
-    <!-- <script src="airtable.js"></script>   -->
-     
-    <!-- <script src="DRIVE.JS"></script> -->
-     <script src="sheet.js"></script>
-  
-
-    <!-- <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script> -->
+    <link rel="stylesheet" href="styles.css">     
+    
+    
+    <script src="sheet.js"></script>
+   
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
 </head>
 </html>
 <body>  
-    
+        
     <div class="preview-container">
         <div class="first-page">             
             <div class="preview" id="preview1">                
                 <div class="search-box">
                     <input type="text" id="idInput" placeholder="Enter Roll Nub ">
-                    <button class="thakur" onclick="searchCertificate()">Search</button>  
-                                                       
+                    <button class="thakur" onclick="fetchFullData()">Search</button>                                      
                 </div>                 
-                <div id="errorMsg" class="loading"></div>  
-                <p id="message"></p>
                 
                 
                 <h2 style="text-align: center;">ADCA Certificate Data 2024</h2>
-                 
-                        <div class="form-container">                      
-                            <img id="previewImage" src="#" alt="previewImage">                      
+                <div id="errorMsg" class="errorMsg"></div>
+                <div id="message">Please Wait...</div> 
+                        <div class="form-container">                             
+
+                            <img id="previewImage" src="#" alt="previewImage">
+                                                 
                         </div>
                     <!--yaha tak hai ye code-->
                 <form id="textInputForm">                                       
                     <div class="akashpandey">
                         <div class="ekmedekhanahai1">
                             <label for="msNoInput">Certificate Nub:</label>
-                            <p class="somethingnew" class="text-xl uppercase ele"> <span id="qhrc">Radhe</span></p>
+                            <p class="somethingnew" class="text-xl uppercase ele"> <span id="qhrc"></span></p>
                             
                             
                         </div>
@@ -202,7 +196,7 @@
                                 <div class="radhekrishan">
                                         <div class="grid grid-cols-2 mt-4 mb-4 m-1">                                           
                                             <div>
-                                                <img src="https://www.gcsm.net.in/assets/tmp-assets//images/cert-typing-banner.png">
+                                                <img src="https://www.gcsm.net.in/assets/tmp-assets//images/banner.png">
                                             </div>
                                             <div class="ml-20">
                                                 <div class="flex pt-1 pb-1 text-left">
@@ -229,7 +223,8 @@
                                             </div>
                                             <div class="justify-self-center pt-2">
                                                 <div class="w-28 border border-black ml-auto mr-auto h-32" id="cropperContainer">
-                                                <img id="croppedImage" src="#" alt="croppedImage">
+                                                <img id="croppedImage" src="default-photo.png" alt="Student Photo">
+                                                <div id="message">Loading...</div>
                                                 <!-- <img id="previewImage11" src="#" alt="previewImage">  -->
                                             </div>
                                             <p class="c-font text-2xl mt-4">Global Foundation</p>
@@ -240,8 +235,7 @@
                                             <p> 21 Societies Act. 1860, Government Regd. No. 120/2015-16</p>
                                             </div>                                    
    
-                                            <div class="mt-2 !font-black cert-body pt-2 pb-6
-                                            ">
+                                            <div class="mt-2 !font-black cert-body pt-2">
                                             <div class="flex pt-2 pb-3 text-left">
                                                 <div class="flex-initial w-fit">This Certificate is awarded to Mr./Ms</div>
                                                 <p id="studentName" class="normal-font ml-2 mr-2 flex font-normal justify-center uppercase items-center font-black font-bold border-b border-black border-dotted">Hello Krishna</p>
@@ -255,7 +249,7 @@
                                             <!--yaha course update hona hai-->
                                             <div class="flex pt-2 pb-2 text-left">
                                                 <div class="flex-initial w-fit">Completion of the course</div>
-                                                <p id="courseName" class="normal-font ml-2 flex justify-center items-center uppercase font-bold border-b border-black border-dotted">ENGLISH AND HINDI TYPING </p>
+                                                <p id="courseName" class="normal-font ml-2 flex justify-center items-center uppercase font-bold border-b border-black border-dotted">ADVANCE DIPLOMA IN COMPUTER APPLICATION</p>
                                             </div>
                                             <div class="flex pt-2 pb-2 text-left">
                                                 <div class="flex-initial w-fit">Of</div>
@@ -265,21 +259,19 @@
                                             <div id="durationText" class="flex pt-2 pb-2 text-left">
                                                 <div class="flex-initial w-fit">of Duration</div>
                                                 <!-- yaha mujhe duration change krna hai  -->
-                                                <p  class="normal-font ml-2 mr-2 flex justify-center uppercase items-center border-b border-black border-dotted"><span id="selectedDuration" class="font-bold">SIX</span></p>
+                                                <p  class="normal-font ml-2 mr-2 flex justify-center uppercase items-center border-b border-black border-dotted"><span id="selectedDuration" class="font-bold">TWELVE</span></p>
                                                 <div class="flex-initial w-fit">Month who</div>
                                             </div>
-                                            
-                                            <div  class="flex pt-2 pb-2 text-left">
-                                                <div class="flex-initial w-fit">has Speed in English</div>
-                                                <p class="ml-2 normal-font mr-2 flex justify-center items-center font-bold border-b border-black border-dotted"> <span id="englishspeed">Error (please Typ_SPD) </span>&nbsp;WPM </p> 
-                                                <div class="flex-initial w-fit">Hindi</div>
-                                                <p  class="ml-2 normal-font mr-2 flex justify-center items-center font-bold border-b  border-black border-dotted"><span id="hindispeed"> Error </span>&nbsp;WPM</p>
-
-                                            <!--</div>
-                                                <div class="flex pt-2 pb-2 text-left">
+                                            <!-- iske uppar wala ke liye likha gya hai ye code-->
+                                            <div class="flex pt-2 pb-2 text-left">
                                                 <div class="flex-initial w-fit">has passed the examination held on</div>
-                                                <p class="ml-2 normal-font mr-2 flex justify-center items-center border-b border-black border-dotted"><span class="font-bold uppercase">July 2022</span></p>
-                                                <div class="flex-initial w-fit">and</div>-->
+                                                <!-- jiska id hai exam display-->
+                                                <p id="examDisplay" class="ml-2 normal-font mr-2 flex justify-center items-center border-b border-black border-dotted"><span class="font-bold uppercase">February 2025</span></p>
+                                                <div class="flex-initial w-fit">and</div>                                                                                                           <!--isko hi change krna hai-->
+                                            </div>
+                                            <div class="flex pt-2 pb-2 text-left">
+                                                <div class="flex-initial w-fit">has procured the grade</div>
+                                                <p class="ml-2 mr-2 normal-font border-b flex justify-center items-center border-black border-dotted"><span class="font-bold uppercase">Excellent</span></p>
                                             </div>
                                         </div>    
                                         <div class="grid mt-4 pb-10 pt-6 grid-cols-3">
@@ -318,14 +310,12 @@
         </div>
     </div>
 </div>
+<div id="message">Please Wait...</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
 
-
-    
 </body>
 </html>
-
-
 
 
 
